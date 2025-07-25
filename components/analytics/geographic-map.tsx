@@ -78,6 +78,11 @@ export function GeographicMap({ filters }: GeographicMapProps) {
           ],
           'fill-opacity': 0.7,
         }
+      default:
+        return {
+          'fill-color': '#FFD700',
+          'fill-opacity': 0.7,
+        }
     }
   }
 
@@ -123,131 +128,130 @@ export function GeographicMap({ filters }: GeographicMapProps) {
         <CardContent>
           {/* Map Container */}
           <div className="relative h-[500px] rounded-lg overflow-hidden">
-        <Map
-          {...viewport}
-          onMove={(evt) => setViewport(evt.viewState)}
-          mapStyle="mapbox://styles/mapbox/light-v11"
-          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-          interactiveLayerIds={['regions-layer']}
-          onClick={(event) => {
-            const feature = event.features?.[0]
-            if (feature) {
-              setSelectedRegion(feature.properties)
-            }
-          }}
-        >
-          <NavigationControl position="top-right" />
-          
-          {/* Regions Layer */}
-          <Source
-            id="regions"
-            type="geojson"
-            data={{
-              type: 'FeatureCollection',
-              features: geoData?.regions?.map((region: any) => ({
-                type: 'Feature',
-                properties: {
-                  ...region,
-                  name: region.region_name,
-                  revenue: region.revenue,
-                  transactions: region.transactions,
-                  branded_preference: region.branded_preference || 0.5,
-                },
-                geometry: region.geometry,
-              })) || [],
-            }}
-          >
-            <Layer
-              id="regions-layer"
-              type="fill"
-              paint={getLayerPaint()}
-            />
-            <Layer
-              id="regions-outline"
-              type="line"
-              paint={{
-                'line-color': '#374151',
-                'line-width': 1,
-              }}
-            />
-          </Source>
-
-          {/* Popup */}
-          {selectedRegion && (
-            <Popup
-              latitude={selectedRegion.center_lat || viewport.latitude}
-              longitude={selectedRegion.center_lng || viewport.longitude}
-              onClose={() => setSelectedRegion(null)}
-              closeButton={true}
-              closeOnClick={false}
-            >
-              <div className="p-2">
-                <h4 className="font-semibold">{selectedRegion.name}</h4>
-                <div className="mt-2 space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Revenue:</span>
-                    <span className="font-medium">
-                      {formatCurrency(selectedRegion.revenue)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Transactions:</span>
-                    <span className="font-medium">
-                      {formatNumber(selectedRegion.transactions)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Avg Basket:</span>
-                    <span className="font-medium">
-                      {formatCurrency(selectedRegion.avg_basket_size || 0)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Popup>
-          )}
-        </Map>
-        
-        {/* Animated Regional Bubbles Overlay */}
-        {geoData?.regions?.map((region: any, index: number) => {
-          const size = Math.sqrt(region.revenue / 10000) + 20
-          const delay = index * 100
-          
-          return (
-            <div
-              key={region.region_id}
-              className="absolute animate-pulse-glow"
-              style={{
-                top: `${20 + (index % 3) * 30}%`,
-                left: `${20 + (index % 4) * 20}%`,
-                animationDelay: `${delay}ms`,
+            <Map
+              {...viewport}
+              onMove={(evt) => setViewport(evt.viewState)}
+              mapStyle="mapbox://styles/mapbox/light-v11"
+              mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+              interactiveLayerIds={['regions-layer']}
+              onClick={(event) => {
+                const feature = event.features?.[0]
+                if (feature) {
+                  setSelectedRegion(feature.properties)
+                }
               }}
             >
-              <div
-                className={cn(
-                  "rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110",
-                  mapLayer === 'revenue' ? 'bg-geo-high' : 
-                  mapLayer === 'volume' ? 'bg-geo-medium' : 
-                  'bg-geo-low'
-                )}
-                style={{
-                  width: `${size}px`,
-                  height: `${size}px`,
-                  opacity: 0.6,
+              <NavigationControl position="top-right" />
+              
+              {/* Regions Layer */}
+              <Source
+                id="regions"
+                type="geojson"
+                data={{
+                  type: 'FeatureCollection',
+                  features: geoData?.regions?.map((region: any) => ({
+                    type: 'Feature',
+                    properties: {
+                      ...region,
+                      name: region.region_name,
+                      revenue: region.revenue,
+                      transactions: region.transactions,
+                      branded_preference: region.branded_preference || 0.5,
+                    },
+                    geometry: region.geometry,
+                  })) || [],
                 }}
-                onClick={() => setSelectedRegion(region)}
               >
-                <div className="text-white text-xs font-semibold">
-                  {region.region_name?.slice(0, 3)}
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
+                <Layer
+                  id="regions-layer"
+                  type="fill"
+                  paint={getLayerPaint()}
+                />
+                <Layer
+                  id="regions-outline"
+                  type="line"
+                  paint={{
+                    'line-color': '#374151',
+                    'line-width': 1,
+                  }}
+                />
+              </Source>
 
-      </CardContent>
-    </Card>
+              {/* Popup */}
+              {selectedRegion && (
+                <Popup
+                  latitude={selectedRegion.center_lat || viewport.latitude}
+                  longitude={selectedRegion.center_lng || viewport.longitude}
+                  onClose={() => setSelectedRegion(null)}
+                  closeButton={true}
+                  closeOnClick={false}
+                >
+                  <div className="p-2">
+                    <h4 className="font-semibold">{selectedRegion.name}</h4>
+                    <div className="mt-2 space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Revenue:</span>
+                        <span className="font-medium">
+                          {formatCurrency(selectedRegion.revenue)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Transactions:</span>
+                        <span className="font-medium">
+                          {formatNumber(selectedRegion.transactions)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Avg Basket:</span>
+                        <span className="font-medium">
+                          {formatCurrency(selectedRegion.avg_basket_size || 0)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Popup>
+              )}
+            </Map>
+            
+            {/* Animated Regional Bubbles Overlay */}
+            {geoData?.regions?.map((region: any, index: number) => {
+              const size = Math.sqrt(region.revenue / 10000) + 20
+              const delay = index * 100
+              
+              return (
+                <div
+                  key={region.region_id}
+                  className="absolute animate-pulse-glow"
+                  style={{
+                    top: `${20 + (index % 3) * 30}%`,
+                    left: `${20 + (index % 4) * 20}%`,
+                    animationDelay: `${delay}ms`,
+                  }}
+                >
+                  <div
+                    className={cn(
+                      "rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110",
+                      mapLayer === 'revenue' ? 'bg-geo-high' : 
+                      mapLayer === 'volume' ? 'bg-geo-medium' : 
+                      'bg-geo-low'
+                    )}
+                    style={{
+                      width: `${size}px`,
+                      height: `${size}px`,
+                      opacity: 0.6,
+                    }}
+                    onClick={() => setSelectedRegion(region)}
+                  >
+                    <div className="text-white text-xs font-semibold">
+                      {region.region_name?.slice(0, 3)}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Regional Summary Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -308,6 +312,6 @@ export function GeographicMap({ filters }: GeographicMapProps) {
           )}
         </div>
       )}
-    </Card>
+    </div>
   )
 }
