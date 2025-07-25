@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 47 100% 50%; /* #FFD700 - TBWA Gold */
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 47 100% 50%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 47 100% 50%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 47 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .animate-slide-in {
+    animation: slideIn 0.3s ease-out;
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Glass morphism effects from scout-insight-pulse */
+  .glass-card {
+    @apply bg-white/10 dark:bg-gray-900/10 backdrop-blur-md border border-white/20 dark:border-gray-700/30 shadow-xl;
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50;
+  }
+  
+  .gold-gradient {
+    @apply bg-gradient-to-r from-yellow-400 to-yellow-600;
+  }
+  
+  /* Pulse animations */
+  .animate-pulse-glow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .5;
+    }
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  /* Geo colors */
+  .text-geo-high { color: #10B981; }
+  .text-geo-medium { color: #F59E0B; }
+  .text-geo-low { color: #EF4444; }
+  .bg-geo-high { background-color: #10B981; }
+  .bg-geo-medium { background-color: #F59E0B; }
+  .bg-geo-low { background-color: #EF4444; }
+  
+  /* Vibe context colors */
+  .bg-vibe-intent { @apply bg-blue-500/20; }
+  .bg-vibe-tension { @apply bg-orange-500/20; }
+  .bg-vibe-equity { @apply bg-green-500/20; }
+  .text-vibe-intent { @apply text-blue-500; }
+  .text-vibe-tension { @apply text-orange-500; }
+  .text-vibe-equity { @apply text-green-500; }
+  
+  /* Chart colors */
+  .text-chart-1 { color: #FFD700; }
+  .text-chart-2 { color: #10B981; }
+  .text-chart-3 { color: #3B82F6; }
+  .text-chart-4 { color: #8B5CF6; }
+  .text-chart-5 { color: #EF4444; }
+  .text-chart-6 { color: #F59E0B; }
+  
+  /* AI glow effect */
+  .text-ai-glow {
+    @apply text-primary;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  }
+  
+  /* Dashboard background */
+  .bg-dashboard-bg {
+    @apply bg-gray-50 dark:bg-gray-950;
+  }
+  
+  /* Success/Warning/Info colors */
+  .text-success { @apply text-green-500; }
+  .text-warning { @apply text-orange-500; }
+  .text-info { @apply text-blue-500; }
+  .bg-success { @apply bg-green-500; }
+  .bg-warning { @apply bg-orange-500; }
+  .bg-info { @apply bg-blue-500; }
+}
